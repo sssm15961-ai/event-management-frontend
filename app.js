@@ -29,46 +29,28 @@ function logout() {
 
 /* EVENTS */
 async function loadEvents() {
-  if (!localStorage.getItem("token")) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  const eventsDiv = document.getElementById("events");
   const res = await fetch(`${API}/events`);
   const events = await res.json();
 
   eventsDiv.innerHTML = "";
-
-  if (events.length === 0) {
-    eventsDiv.innerHTML = "<p>No events available.</p>";
-    return;
-  }
-
   events.forEach(e => {
     const div = document.createElement("div");
     div.className = "event";
-
-    if (e.status === "completed") {
-      div.style.opacity = "0.6";
-    }
 
     div.innerHTML = `
       <h3>${e.title}</h3>
       <p>${e.description}</p>
       <p>${e.date} | ${e.location}</p>
       <p>Status: <strong>${e.status}</strong></p>
-
-      ${
-        e.status === "active"
-          ? `<button onclick="completeEvent('${e._id}')">Mark as Completed</button>`
-          : `<span style="color: green; font-weight: bold;">Completed</span>`
-      }
+      <button onclick="completeEvent('${e._id}')">
+        Mark as Completed
+      </button>
     `;
 
     eventsDiv.appendChild(div);
   });
 }
+
 
 
 async function createNewEvent() {
@@ -99,3 +81,39 @@ async function completeEvent(eventId) {
 if (window.location.pathname.includes("dashboard")) {
   loadEvents();
 }
+
+async function completeEvent(id) {
+  await fetch(`${API}/events/${id}/complete`, {
+    method: "PUT"
+  });
+  loadEvents();
+  loadCompletedEvents();
+}
+
+const completedDiv = document.getElementById("completedEvents");
+
+async function loadCompletedEvents() {
+  const res = await fetch(`${API}/events/completed`);
+  const events = await res.json();
+
+  completedDiv.innerHTML = "";
+  events.forEach(e => {
+    const div = document.createElement("div");
+    div.className = "event completed";
+
+    div.innerHTML = `
+      <h3>${e.title}</h3>
+      <p>${e.description}</p>
+      <p>Status: <strong>${e.status}</strong></p>
+    `;
+
+    completedDiv.appendChild(div);
+  });
+}
+
+
+if (window.location.pathname.includes("dashboard")) {
+  loadEvents();
+  loadCompletedEvents();
+}
+
