@@ -71,7 +71,7 @@ async function loadEvents() {
 }
 
 
-async function createEvent() {
+async function createNewEvent() {
   await fetch(`${API}/events`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
