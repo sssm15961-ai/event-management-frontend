@@ -1,6 +1,10 @@
 const API = "https://event-management-backend-4x1j.onrender.com/api";
 
-/* LOGIN */
+/* ================= DOM ELEMENTS ================= */
+const eventsDiv = document.getElementById("events");
+const completedDiv = document.getElementById("completedEvents");
+
+/* ================= LOGIN ================= */
 async function login() {
   const email = loginEmail.value;
   const password = loginPassword.value;
@@ -15,24 +19,25 @@ async function login() {
 
   if (data.token) {
     localStorage.setItem("token", data.token);
-    window.location.href = "dashboard.html"; // REAL PAGE CHANGE
+    window.location.href = "dashboard.html";
   } else {
     authMessage.innerText = data.error;
   }
 }
 
-/* LOGOUT */
+/* ================= LOGOUT ================= */
 function logout() {
   localStorage.removeItem("token");
   window.location.href = "login.html";
 }
 
-/* EVENTS */
+/* ================= LOAD AVAILABLE EVENTS ================= */
 async function loadEvents() {
   const res = await fetch(`${API}/events`);
   const events = await res.json();
 
   eventsDiv.innerHTML = "";
+
   events.forEach(e => {
     const div = document.createElement("div");
     div.className = "event";
@@ -51,8 +56,7 @@ async function loadEvents() {
   });
 }
 
-
-
+/* ================= CREATE EVENT ================= */
 async function createNewEvent() {
   await fetch(`${API}/events`, {
     method: "POST",
@@ -65,38 +69,27 @@ async function createNewEvent() {
       capacity: capacity.value
     })
   });
-  loadEvents();
-}
-
-async function completeEvent(eventId) {
-  await fetch(`${API}/events/${eventId}/complete`, {
-    method: "PATCH"
-  });
 
   loadEvents();
 }
 
-
-/* AUTO LOAD DASHBOARD DATA */
-if (window.location.pathname.includes("dashboard")) {
-  loadEvents();
-}
-
+/* ================= MARK EVENT AS COMPLETED ================= */
 async function completeEvent(id) {
   await fetch(`${API}/events/${id}/complete`, {
     method: "PUT"
   });
+
   loadEvents();
   loadCompletedEvents();
 }
 
-const completedDiv = document.getElementById("completedEvents");
-
+/* ================= LOAD COMPLETED EVENTS ================= */
 async function loadCompletedEvents() {
   const res = await fetch(`${API}/events/completed`);
   const events = await res.json();
 
   completedDiv.innerHTML = "";
+
   events.forEach(e => {
     const div = document.createElement("div");
     div.className = "event completed";
@@ -111,9 +104,8 @@ async function loadCompletedEvents() {
   });
 }
 
-
+/* ================= AUTO LOAD DASHBOARD ================= */
 if (window.location.pathname.includes("dashboard")) {
   loadEvents();
   loadCompletedEvents();
 }
-

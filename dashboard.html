@@ -2,41 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dashboard | Event Management</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Event Management Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-<header class="header">
-  <h1>Event Dashboard</h1>
-  <button class="logout-btn" onclick="logout()">Logout</button>
-</header>
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <h1>Event Management System</h1>
+    <button onclick="logout()">Logout</button>
+  </header>
 
-<main class="container">
-
-  <section class="card">
+  <!-- ===== CREATE EVENT ===== -->
+  <section class="create-event">
     <h2>Create New Event</h2>
-    <div class="form-group">
-      <input id="title" placeholder="Event Title" />
-      <input id="description" placeholder="Description" />
-      <input type="date" id="date" />
-      <input id="location" placeholder="Location" />
-      <input type="number" id="capacity" placeholder="Capacity" />
-    </div>
+
+    <input type="text" id="title" placeholder="Event Title" required />
+    <input type="text" id="description" placeholder="Description" required />
+    <input type="date" id="date" required />
+    <input type="text" id="location" placeholder="Location" required />
+    <input type="number" id="capacity" placeholder="Capacity" required />
+
+    <!-- IMPORTANT: NO ARGUMENT PASSED -->
     <button onclick="createNewEvent()">Create Event</button>
   </section>
 
-  <section class="card">
-  <h2>Available Events</h2>
-  <div id="events" class="events-grid"></div>
+  <!-- ===== AVAILABLE EVENTS ===== -->
+  <section>
+    <h2>Available Events</h2>
+    <div id="events"></div>
+  </section>
 
-  <h2>Completed Events</h2>
-<div id="completedEvents"></div>
-</section>
+  <!-- ===== COMPLETED EVENTS ===== -->
+  <section>
+    <h2>Completed Events</h2>
+    <div id="completedEvents"></div>
+  </section>
 
+  <!-- ===== SCRIPT ===== -->
+  <script src="app.js"></script>
 
-</main>
-
-<script src="app.js"></script>
 </body>
 </html>
