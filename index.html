@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Event Management System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="authScreen" class="auth-container">
+    <div class="auth-card">
+      <h1>Event Management System</h1>
+      <p class="subtitle">Please login to continue</p>
+
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button onclick="login()">Login</button>
+
+      <p id="authMessage"></p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="hidden">
+
+    <header class="header">
+      <h1>Event Dashboard</h1>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </header>
+
+    <main class="container">
+
+      <section class="card">
+        <h2>Create New Event</h2>
+        <div class="form-group">
+          <input id="title" placeholder="Event Title" />
+          <input id="description" placeholder="Description" />
+          <input type="date" id="date" />
+          <input id="location" placeholder="Location" />
+          <input type="number" id="capacity" placeholder="Capacity" />
+        </div>
+        <button onclick="createEvent()">Create Event</button>
+      </section>
+
+      <section class="card">
+        <h2>Available Events</h2>
+        <div id="events" class="events-grid"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
